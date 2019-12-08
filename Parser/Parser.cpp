@@ -119,8 +119,15 @@ Node* Parser :: write()
 	{
 		Node* EXP=exp();
 		if(EXP!=NULL)
+		{
 			WRITE->append_child(EXP);
+			return WRITE;
+		}
+		else 
+			return NULL;
 	}
+	else
+		return NULL;
 
 }
 Node* Parser :: assign(){
@@ -155,6 +162,7 @@ Node* Parser :: repeat()
 				{
 					REPEAT->append_child(STAT);
 					REPEAT->append_child(EXP);
+					return REPEAT;
 				}
 				else
 					return NULL;
@@ -165,6 +173,8 @@ Node* Parser :: repeat()
 		else
 			return NULL;
 	}
+	else 
+		return NULL;
 
 }
 
@@ -174,7 +184,6 @@ Node* Parser :: exp()
 	 Node* SIMPLE=SimpleExp();
 	 if(SIMPLE==NULL)
 		 return NULL;
-
 
 	 Node* LESS=match("LESSTHAN") ;
 	 Node* EQ=match("EQUAL");
@@ -188,6 +197,7 @@ Node* Parser :: exp()
 			
 		 LESS->append_child(SIMPLE);
 		 LESS->append_child(SIMPLE2);
+		 return LESS;
 
 	 }
 
@@ -201,8 +211,12 @@ Node* Parser :: exp()
 			
 		 EQ->append_child(SIMPLE);
 		 EQ->append_child(SIMPLE2);
+		 return EQ;
 
 	 }
+
+	 else
+		 return SIMPLE;
 	 
 }
 Node* Parser :: SimpleExp()
@@ -213,6 +227,10 @@ Node* Parser :: SimpleExp()
 		
 	Node* PLUS=match("PLUS") ;
 	Node* MINUS=match("MINUS");
+
+	if(PLUS==NULL && MINUS==NULL)
+		return TERM;
+
 	while(PLUS!=NULL || MINUS!=NULL)
 	{
 	
@@ -224,8 +242,8 @@ Node* Parser :: SimpleExp()
 					return NULL;
 			
 			 PLUS->append_child(TERM);
-			 PLUS->append_child(TERM);
-			 Node* TERM=MINUS;
+			 PLUS->append_child(TERM2);
+			 Node* TERM=PLUS;
 
 		 }
 
@@ -238,13 +256,14 @@ Node* Parser :: SimpleExp()
 					return NULL;
 			
 			 MINUS->append_child(TERM);
-			 MINUS->append_child(TERM);
+			 MINUS->append_child(TERM2);
 			 Node* TERM=MINUS;
 		 }
 
 		 Node* PLUS=match("PLUS") ;
 		 Node* MINUS=match("MINUS");
 	}
+	return TERM;
 	
 }
 Node* Parser :: term()
@@ -287,6 +306,7 @@ Node* Parser :: term()
 		Node* MUL=match("MULT") ;
 		Node* DIV=match("DIV");
 	}
+	return FACT;
 	
 }
 Node* Parser :: factor()
@@ -303,11 +323,12 @@ Node* Parser :: factor()
 			 CLOSE=match("CLOSEDBRACKET"); 
 				if(CLOSE==NULL)
 					return NULL;
+				else
+					return EXP;
 		}
 		else
 			return NULL;
 
-		
 	}
 	Node* NUM=match("NUMBER");
 	Node* ID=match("IDENTIFIER ");

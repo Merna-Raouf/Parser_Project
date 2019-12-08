@@ -1,0 +1,22 @@
+﻿Build started 12/8/2019 6:51:24 PM.
+     1>Project "F:\compilers\Parser_Project\Parser\Parser.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Parser.cpp
+         Parser.cpp
+     1>f:\compilers\parser_project\parser\parser.cpp(24): error C2374: 'Statement' : redefinition; multiple initialization
+                 f:\compilers\parser_project\parser\parser.cpp(21) : see declaration of 'Statement'
+     1>f:\compilers\parser_project\parser\parser.cpp(27): error C2374: 'Statement' : redefinition; multiple initialization
+                 f:\compilers\parser_project\parser\parser.cpp(21) : see declaration of 'Statement'
+     1>f:\compilers\parser_project\parser\parser.cpp(30): error C2374: 'Statement' : redefinition; multiple initialization
+                 f:\compilers\parser_project\parser\parser.cpp(21) : see declaration of 'Statement'
+     1>f:\compilers\parser_project\parser\parser.cpp(33): error C2374: 'Statement' : redefinition; multiple initialization
+                 f:\compilers\parser_project\parser\parser.cpp(21) : see declaration of 'Statement'
+     1>f:\compilers\parser_project\parser\parser.cpp(80): error C2374: 'end_node' : redefinition; multiple initialization
+                 f:\compilers\parser_project\parser\parser.cpp(63) : see declaration of 'end_node'
+     1>f:\compilers\parser_project\parser\parser.cpp(141): error C2374: 'Assign' : redefinition; multiple initialization
+                 f:\compilers\parser_project\parser\parser.cpp(135) : see declaration of 'Assign'
+     1>Done Building Project "F:\compilers\Parser_Project\Parser\Parser.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.90
