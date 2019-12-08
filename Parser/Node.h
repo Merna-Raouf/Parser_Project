@@ -12,7 +12,6 @@ public:
 	string type;
 	list <Node *> children;
 
-public:
 	Node(string value);
 	Node(string value,string type);
 	~Node(void);
