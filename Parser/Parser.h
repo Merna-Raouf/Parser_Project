@@ -12,11 +12,16 @@ public:
 	Parser(void);
 	~Parser(void);
 
+	Node* statement_seq ();
 	Node* statement ();
 	Node* read();
 	Node* write();
 	Node* assign();
 	Node* exp();
+	Node* SimpleExp();
+	Node* term();
+	Node* factor();
+	Node* repeat();
 	Node* match(string Tocheck);
 
 
