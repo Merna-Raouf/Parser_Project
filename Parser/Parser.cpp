@@ -18,10 +18,102 @@ Node* Parser:: match(string Tocheck){
 
 Node* Parser :: statement (){
 
-}
-Node* Parser :: read(){
+	Node* Statement = if_Con();
+	if (Statement != NULL) return Statement;
+
+	Node* Statement = repeat();
+	if (Statement != NULL) return Statement;
+
+	Node* Statement = assign();
+	if (Statement != NULL) return Statement;
+
+	Node* Statement = read();
+	if (Statement != NULL) return Statement;
+
+	Node* Statement = write();
+	if (Statement != NULL) return Statement;
 
 }
+
+Node* Parser :: statement_seq ()
+{
+Node* StatementSeq = new Node("");
+Node* Statment;
+do
+{
+Statment = statement();
+
+if(Statment == NULL)	 return NULL;
+StatementSeq->append_child(Statment);
+
+} while (match(";"));
+
+return StatementSeq;
+
+	Node* statement ();
+
+}
+
+Node* Parser :: if_Con()
+{
+
+	Node* if_node = match("IF");
+	Node* exp_pointer = exp();
+	Node* then_node = match("THEN");
+	Node* statement_pointer = statement_seq();
+	Node* else_node = match("ELSE");
+	Node* end_node = match("END");
+
+
+	if(else_node == NULL
+	&& if_node != NULL 
+	&& exp_pointer != NULL
+	&& then_node != NULL
+	&& statement_pointer != NULL
+	&& end_node != NULL)
+		{
+			if_node->append_child(exp_pointer);
+			if_node->append_child(statement_pointer);
+			return if_node;
+		}
+
+	Node* ElseStatement_pointer = statement_seq();
+
+	Node* end_node = match("END");
+
+	if(if_node != NULL 
+	&& exp_pointer != NULL
+	&& then_node != NULL
+	&& statement_pointer != NULL
+	&& else_node != NULL
+	&& ElseStatement_pointer != NULL
+	&& end_node != NULL)
+		{
+			if_node->append_child(exp_pointer);
+			if_node->append_child(statement_pointer);
+			if_node->append_child(ElseStatement_pointer);
+
+			return if_node;
+		}
+
+
+}
+
+Node* Parser :: read(){
+	Node* READ=match("READ");
+	if(READ!=NULL)
+	{
+		Node* EXP=exp();
+		if(EXP==NULL)
+			return NULL;
+
+		READ->append_child(EXP);
+		return READ;
+	}
+	return NULL;
+
+}
+
 Node* Parser :: write()
 {
 	Node* WRITE=match("WRITE");

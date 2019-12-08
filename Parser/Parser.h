@@ -16,13 +16,14 @@ public:
 	Node* statement ();
 	Node* read();
 	Node* write();
+	Node* if_Con();
 	Node* assign();
 	Node* exp();
 	Node* SimpleExp();
 	Node* term();
 	Node* factor();
 	Node* repeat();
-	Node* match(string Tocheck);
+	Node* match(string Tocheck);`
 
 
 };
