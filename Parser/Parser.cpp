@@ -21,41 +21,43 @@ Node* Parser :: statement (){
 	Node* Statement = if_Con();
 	if (Statement != NULL) return Statement;
 
-	Node* Statement = repeat();
+	Statement = repeat();
 	if (Statement != NULL) return Statement;
 
-	Node* Statement = assign();
+	Statement = assign();
 	if (Statement != NULL) return Statement;
 
-	Node* Statement = read();
+	Statement = read();
 	if (Statement != NULL) return Statement;
 
-	Node* Statement = write();
+	Statement = write();
 	if (Statement != NULL) return Statement;
 
+	return NULL;
 }
 
 Node* Parser :: statement_seq ()
 {
-Node* StatementSeq = new Node("StatementSeq");
-Node* Statment;
-do
-{
-Statment = statement();
-if(Statment == NULL)	 return NULL;
-StatementSeq->append_child(Statment);
+	Node* StatementSeq = new Node("StatementSeq");
+	Node* Statment;
+	do
+	{
+		Statment = statement();
+		if(Statment == NULL)	 return NULL;
+		StatementSeq->append_child(Statment);
 
-} while (match(";"));
+	} while (match("SEMICOLON"));
 
-return StatementSeq;
-
-
+	return StatementSeq;
 }
 
 Node* Parser :: if_Con()
 {
-
 	Node* if_node = match("IF");
+
+	if(if_node == NULL)
+		return NULL;
+
 	Node* exp_pointer = exp();
 	Node* then_node = match("THEN");
 	Node* statement_pointer = statement_seq();
@@ -77,7 +79,7 @@ Node* Parser :: if_Con()
 
 	Node* ElseStatement_pointer = statement_seq();
 
-	Node* end_node = match("END");
+	end_node = match("END");
 
 	if(if_node != NULL 
 	&& exp_pointer != NULL
@@ -94,7 +96,7 @@ Node* Parser :: if_Con()
 			return if_node;
 		}
 
-
+	return NULL;
 }
 
 Node* Parser :: read(){
@@ -132,17 +134,20 @@ Node* Parser :: write()
 }
 Node* Parser :: assign(){
 	Node* identifier = match("IDENTIFIER");
+
+	if(identifier==NULL)
+		return NULL;
+
 	Node* Assign = match("ASSIGN");
 	Node* exp_node = exp();
 
 
 	identifier->append_child(exp_node);
 
-	Node* Assign = new Node("Assign");
+	Assign = new Node("Assign");
 	Assign->append_child(identifier);
 	
 	return Assign;
-
 }
 
 Node* Parser :: repeat()
@@ -343,4 +348,3 @@ Node* Parser :: factor()
 		return NULL;
 		
 }
-

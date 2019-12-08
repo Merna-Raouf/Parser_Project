@@ -1,0 +1,7 @@
+/Debug/
+/.vs/
+/Parser/Debug/
+*.opensdf
+*.sdf
+*.sln
+*.suo
