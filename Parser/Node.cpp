@@ -4,6 +4,7 @@
 Node::Node(string val)
 {
 	this->value = val; 
+	this->type = "";
 }
 
 Node::Node(string value,string type)
