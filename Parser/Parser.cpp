@@ -37,12 +37,11 @@ Node* Parser :: statement (){
 
 Node* Parser :: statement_seq ()
 {
-Node* StatementSeq = new Node("");
+Node* StatementSeq = new Node("StatementSeq");
 Node* Statment;
 do
 {
 Statment = statement();
-
 if(Statment == NULL)	 return NULL;
 StatementSeq->append_child(Statment);
 
@@ -50,7 +49,6 @@ StatementSeq->append_child(Statment);
 
 return StatementSeq;
 
-	Node* statement ();
 
 }
 
@@ -126,6 +124,17 @@ Node* Parser :: write()
 
 }
 Node* Parser :: assign(){
+	Node* identifier = match("IDENTIFIER");
+	Node* Assign = match("ASSIGN");
+	Node* exp_node = exp();
+
+
+	identifier->append_child(exp_node);
+
+	Node* Assign = new Node("Assign");
+	Assign->append_child(identifier);
+	
+	return Assign;
 
 }
 
