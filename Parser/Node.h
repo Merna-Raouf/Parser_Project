@@ -8,11 +8,13 @@ class Node
 {
 public:
 
-	string val;
+	string value;
+	string type;
 	list <Node *> children;
 
 public:
-	Node(string val);
+	Node(string value);
+	Node(string value,string type);
 	~Node(void);
 	void append_child(Node* child);
 };

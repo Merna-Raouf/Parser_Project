@@ -3,7 +3,13 @@
 
 Node::Node(string val)
 {
-	this->val = val; 
+	this->value = val; 
+}
+
+Node::Node(string value,string type)
+{
+	this->value = value;
+	this->type = type;
 }
 
 Node::~Node(void)
