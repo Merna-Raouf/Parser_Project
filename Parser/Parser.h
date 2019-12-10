@@ -1,12 +1,14 @@
 #pragma once
 #include <vector>
 #include "Node.h"
+#include "Token.h"
+#include <fstream>
 
 using namespace std;
 class Parser
 {
-	vector<string> token_val;
-	vector<string> token_type;
+	vector <Token> token_list;
+
 	int index;
 public:
 	Parser(void);
@@ -24,7 +26,7 @@ public:
 	Node* factor();
 	Node* repeat();
 	Node* match(string Tocheck);
-
+	vector<Token>read_file(string file_name);
 
 };
 
