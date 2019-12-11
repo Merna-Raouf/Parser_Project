@@ -6,7 +6,7 @@
 #include "Token.h"
 #include "Parser.h"
 
-#define Recwedith 50
+#define Recwedith 80
 #define Recheight 40
 #define Rediuos 15
 
@@ -93,7 +93,7 @@ int MainWindow:: DrawTree(Node* root,int x,int y ){
     for(list<Node *>::iterator it=root->children.begin(); it != root->children.end(); it++){
        node_children =  DrawTree(*it, x+x_move, y );
        if (max_children<node_children) max_children = node_children;
-       x_move += 70 + max_children *50 ;
+       x_move += 90 + (max_children-1) *90 ;
 
     }
 
