@@ -9,7 +9,7 @@ class Token
 public:
 	string value;
 	string type;
-	Token::Token(void);
+	Token(void);
 	Token(string value , string type);
 	~Token(void);
 };

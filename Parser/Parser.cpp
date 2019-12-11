@@ -10,8 +10,13 @@ Parser::~Parser(void)
 {
 }
 Node* Parser:: match(string Tocheck){
-	if(this->token_list[index].type == Tocheck)
-		return ( new Node(this->token_list[index++].value) ) ;
+	if( index >= this->token_list.size()) return NULL;
+
+	if( this->token_list[index].type == Tocheck){
+		Node *N1 = new Node(this->token_list[index].value,this->token_list[index].type) ;
+		index++;
+		return (N1) ;
+	}
 	else 
 		return NULL;
 }
