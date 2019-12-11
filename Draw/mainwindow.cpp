@@ -1,5 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <iostream>
+#include <vector>
+#include <string>
+#include "Token.h"
+#include "Parser.h"
+
+#define Recwedith 50
+#define Recheight 40
+#define Rediuos 15
+
+
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,7 +27,12 @@ MainWindow::~MainWindow()
 
 void MainWindow:: paintEvent(QPaintEvent *event)
 {
-    DrawCircle(QPoint(150,150) , 30 , Qt::red  , "id(x)");
+    Parser p1;
+    p1.read_file("Example.txt");
+    Node* Output = p1.statement_seq();
+//    DrawCircle(QPoint(150,150) , 30 , Qt::red  , "id(x)");
+
+   DrawTree(Output,20,20);
 }
 void MainWindow:: DrawRec(int x , int y , int w , int h , Qt::GlobalColor color  , QString text){
     QPainter painter(this);
@@ -59,3 +76,31 @@ void MainWindow:: DrawCircle(QPoint c , int r , Qt::GlobalColor color  , QString
     painter.drawText(Ctext,  text);
     painter.drawEllipse(c,r,r);
 }
+
+
+int MainWindow:: DrawTree(Node* root,int x,int y ){
+
+    QString qstr = QString::fromStdString(root->value);
+    DrawRec(x,y,Recwedith,Recheight,Qt::red ,qstr);
+
+    int x_move = 0 ;
+
+    int max_children=0;
+    int node_children;
+
+    y += 70;
+
+    for(list<Node *>::iterator it=root->children.begin(); it != root->children.end(); it++){
+       node_children =  DrawTree(*it, x+x_move, y );
+       if (max_children<node_children) max_children = node_children;
+       x_move += 70 + max_children *50 ;
+
+    }
+
+    return root->children.size();
+
+}
+
+
+
+

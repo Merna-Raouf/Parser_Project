@@ -23,12 +23,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-SOURCES += \
-        main.cpp \
-        mainwindow.cpp
+SOURCES +=\
+    main.cpp \
+    mainwindow.cpp \
+    Node.cpp \
+    Parser.cpp \
+    Token.cpp
 
-HEADERS += \
-        mainwindow.h
+HEADERS +=\
+    mainwindow.h \
+    Node.h \
+    Parser.h \
+    Token.h
 
 FORMS += \
         mainwindow.ui
+SUBDIRS += \
+    Draw.pro
+
+DISTFILES += \
+    Example.txt
