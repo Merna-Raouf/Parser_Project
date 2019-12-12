@@ -253,7 +253,7 @@ Node* Parser :: SimpleExp()
 
              PLUS->append_child(TERM);
              PLUS->append_child(TERM2);
-             Node* TERM=PLUS;
+             TERM=PLUS;
 
          }
 
@@ -267,11 +267,11 @@ Node* Parser :: SimpleExp()
 
              MINUS->append_child(TERM);
              MINUS->append_child(TERM2);
-             Node* TERM=MINUS;
+             TERM=MINUS;
          }
 
-         Node* PLUS=match("PLUS") ;
-         Node* MINUS=match("MINUS");
+         PLUS=match("PLUS") ;
+         MINUS=match("MINUS");
     }
     return TERM;
 
@@ -288,7 +288,7 @@ Node* Parser :: term()
     while(MUL!=NULL || DIV!=NULL)
     {
 
-         if(MUL!=NULL )
+         if(MUL !=NULL)
          {
              Node* FACT2=factor();
 
@@ -297,7 +297,7 @@ Node* Parser :: term()
 
              MUL->append_child(FACT);
              MUL->append_child(FACT2);
-             Node* FACT=MUL;
+             FACT=MUL;
          }
 
 
@@ -309,12 +309,12 @@ Node* Parser :: term()
                     return NULL;
              DIV->append_child(FACT);
              DIV->append_child(FACT2);
-             Node* FACT=DIV;
+             FACT=DIV;
          }
 
 
-        Node* MUL=match("MULT") ;
-        Node* DIV=match("DIV");
+        MUL=match("MULT") ;
+        DIV=match("DIV");
     }
     return FACT;
 
