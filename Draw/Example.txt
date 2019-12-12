@@ -1,3 +1,0 @@
-x,IDENTIFIER
-:=   ,    ASSIGN
-4,   NUMBER

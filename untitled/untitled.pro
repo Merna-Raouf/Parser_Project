@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2019-12-09T22:58:03
+# Project created by QtCreator 2019-12-12T00:48:52
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Draw
+TARGET = untitled
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -23,23 +23,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-SOURCES +=\
-    main.cpp \
-    mainwindow.cpp \
+SOURCES += \
+        main.cpp \
+        mainwindow.cpp \
     Node.cpp \
+    Token.cpp \
     Parser.cpp \
-    Token.cpp
+    graphics.cpp \
+    subwindow.cpp
 
-HEADERS +=\
-    mainwindow.h \
+HEADERS += \
+        mainwindow.h \
     Node.h \
+    Token.h \
     Parser.h \
-    Token.h
+    graphics.h \
+    subwindow.h
 
 FORMS += \
-        mainwindow.ui
-SUBDIRS += \
-    Draw.pro
-
-DISTFILES += \
-    Example.txt
+        mainwindow.ui \
+    subwindow.ui
