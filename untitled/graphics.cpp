@@ -98,7 +98,7 @@ void Graphics::drawBackground(QPainter *painter, const QRectF &rect)
         return;
     }
     else{
-        DrawTree(Output,100,100,QRect(10,10,10,10),"None",painter);
+        DrawTree(Output,"",100,100,QRect(10,10,10,10),"None",painter);
     }
 }
 
@@ -158,63 +158,49 @@ void Graphics:: paintEvent(QPaintEvent *painter)
 
 }
 */
-int Graphics:: DrawTree(Node* root,int x,int y , QRect prev , string prev_type , QPainter *painter){
+int Graphics:: DrawTree(Node* root,string prev_val,int x,int y , QRect prev , string prev_type , QPainter *painter){
 
     QString text = QString::fromStdString(root->value);
+    int test1 ,test2;
+    if(root->value != "StatementSeq"
+        && prev_val != "read" &&root->value != "read"
+        && prev_val != "Assign" &&root->value != "Assign"){
 
-    if(root->drawn==false &&
-            (root->value == "if" || root->value == "Repeat"
-             || root->value == "Assign" || root->value == "read"
-             || root->value == "write"  || root->value == "StatementSeq")){
+        if (root->type == "NUMBER"
+                ||root->type == "IDENTIFIER"
+                ||root->type == "EQUAL"
+                ||root->type == "LESSTHAN"
+                ||root->type == "MORETHAN"
+                ||root->type == "DIV"
+                ||root->type == "MULT"
+                ||root->type == "MINUS"
+                ||root->type == "PLUS"
 
-        if (root->value == "StatementSeq"){
-            root->drawn = true;
-            root->children.front()->drawn = true;
+                )
+        {
+            QRect newElipse = DrawCircle(QPoint(x+30,y),text,painter);
+            y = newElipse.center().y() + (20+RECT_H);
+            test1 = newElipse.height();
 
-            text = QString::fromStdString(root->children.front()->value);
+        }
+        else{
+            QRect newRec = DrawRec(x,y,text,painter);
+            y = newRec.center().y() + (20+RECT_H);
+            test2 = newRec.height();
 
-            if(root->children.front()->value == "Assign" || root->children.front()->value == "read"){
-                text = QString::fromStdString(root->children.front()->value) + "("
-                        + QString::fromStdString(root->children.front()->children.front()->value) + ")";
-
-                root->children.front()->children.front()->drawn = true;
             }
 
-        }
-        else if(root->value == "Assign" || root->value == "read"){
-            text = QString::fromStdString(root->value) + "("
-                    + QString::fromStdString(root->children.front()->value) + ")";
-            root->drawn = true;
-            root->children.front()->drawn = true;
-        }
-        QRect newRec = DrawRec(x,y,text,painter);
+    }
+
+    else if(prev_val == "read" || prev_val == "Assign" ){
+
+        QString string_to = QString::fromStdString(prev_val);
+
+        QRect newRec = DrawRec(x,y, string_to + "(" + text+")",painter);
         y = newRec.center().y() + (20+RECT_H);
 
-        if(prev_type == "Rect"){
-            connectRectoChildRec(prev,newRec,painter);
-        }
-        prev_type = "Rect";
-        prev = newRec;
     }
-    else if (root->drawn==false){
-       if(root->type == "IDENTIFIER")
-           text = "id(" +  QString::fromStdString(root->value) + ")";
 
-       else if (root->type == "NUMBER")
-           text = "const("  + QString::fromStdString(root->value) + ")";
-
-       QRect newElipse = DrawCircle(QPoint(x,y),text,painter);
-       y = newElipse.center().y()+2*RECT_H;
-
-       if(prev_type == "Rect"){
-           connectRectoChildCir(prev,newElipse,painter);
-       }
-       else if (prev_type == "Cir"){
-           connectCirtoChildCir(prev,newElipse,painter);
-       }
-       prev_type = "Cir";
-       prev = newElipse;
-    }
 
     int x_move = 0 ;
     int max_children=0;
@@ -222,14 +208,27 @@ int Graphics:: DrawTree(Node* root,int x,int y , QRect prev , string prev_type ,
 
 
     for(list<Node *>::iterator it=root->children.begin(); it != root->children.end(); it++){
-       node_children =  DrawTree(*it, x+x_move, y , prev , prev_type,painter);
+       node_children =  DrawTree(*it,root->value, x+x_move, y , prev , prev_type,painter);
+       node_children = count_leaf(*it);
        if (max_children<node_children) max_children = node_children;
-       x_move += 90 + (max_children) *90 ;
+       x_move += 110 + (max_children-1) *110 ;
     }
 
     return root->children.size();
 
 }
+
+int Graphics::count_leaf(Node* root){
+    int count = 0 ;
+    for(list<Node *>::iterator it=root->children.begin(); it != root->children.end(); it++){
+        count += count_leaf(*it);
+    }
+    if (root->children.size() == 0)
+        return 1;
+    return count;
+}
+
+
 
 QRect Graphics:: DrawRec(int x , int y , QString text,QPainter * painter){
     //QPainter painter(this);
@@ -289,22 +288,22 @@ QRect Graphics:: DrawCircle(QPoint c , QString text,QPainter * painter){
     return Ellipse;
 }
 
-void Graphics :: connectRectoChildRec(QRect rec1 , QRect rec2,QPainter *painter){
-    QPoint start = rec1.center() + QPoint(0,RECT_H/2);
-    QPoint end = rec2.center() - QPoint(0,RECT_H/2);
 
-    matchingLine(start , end ,Qt::blue,painter);
-}
-void Graphics :: connectRectoChildCir(QRect rec1 , QRect Ellipse,QPainter *painter){
-    QPoint start = rec1.center() + QPoint(0,RECT_H/2);
-    QPoint end = Ellipse.center() - QPoint(0,Cir_R);
 
-    matchingLine(start , end ,Qt::blue,painter);
-}
 
-void Graphics :: connectCirtoChildCir(QRect Ellipse1 , QRect Ellipse2,QPainter *painter){
-    QPoint start = Ellipse1.center() + QPoint(0,Cir_R);
-    QPoint end = Ellipse2.center() - QPoint(0,Cir_R);
+
+void Graphics :: connectChildRec(QRect rec1 , QRect rec2,QPainter *painter){
+
+     QPoint start,end;
+    if(rec1.height() == 80)
+       start = rec1.center() + QPoint(0,RECT_H/2);
+   if(rec1.height()== 70)
+      start = rec1.center() + QPoint(0,Cir_R);
+
+   if(rec2.height() == 80)
+      end = rec2.center() - QPoint(0,RECT_H/2);
+   if(rec2.height()== 70)
+      end = rec2.center() - QPoint(0,Cir_R);
 
     matchingLine(start , end ,Qt::blue,painter);
 }
