@@ -26,17 +26,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    /*
-    virtual void paintEvent(QPaintEvent *event);
-    QRect DrawRec(int x , int y , QString text);
-    QRect DrawCircle(QPoint c , QString text);
-    int  DrawTree(Node* root,int x,int y , QRect prev , string prev_type );
-    void connectRectoChildRec(QRect rec1 , QRect rec2);
-    void connectSiblingRects(QRect rec1 , QRect rec2);
-    void connectRectoChildCir(QRect rec1 , QRect Ellipse);
-    void connectCirtoChildCir(QRect Ellipse1 , QRect Ellipse2);
-    void matchingLine(QPoint p1 , QPoint p2 , Qt::GlobalColor color);
-    */
+
 private slots:
     void InitUI();
     void browsefun();
@@ -61,6 +51,9 @@ private:
     QLabel *firstPagetitle;
 
     string * directory;
+
+    //pointer to parser object
+    Parser *P1;
 
    // SubWindow * subWindow;
     SubWindow *s1;

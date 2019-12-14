@@ -10,7 +10,7 @@
 class Graphics :public QGraphicsView
 {
 public:
-    Graphics(QWidget *parent = 0,string directory="");
+    Graphics(QWidget *parent = 0,Node* output=NULL);
 
     //virtual void paintEvent(QPaintEvent *painter) ;
     QRect DrawRec(int x , int y , QString text,QPainter * painter);
@@ -36,7 +36,7 @@ protected:
 private:
     QGraphicsScene *scene;
 
-    string * directory;
+    Node * Output;
 };
 
 #endif // GRAPHICS_H

@@ -20,9 +20,9 @@ class SubWindow : public QDialog
 {
     Q_OBJECT
 private slots:
-     void UI_init(string directory);
+     void UI_init(Node* output);
 public:
-     SubWindow(QWidget *parent = 0,string directory="");
+     SubWindow(QWidget *parent = 0,Node* output=NULL);
     ~SubWindow();
 
 private:

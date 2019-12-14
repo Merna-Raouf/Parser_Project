@@ -1,7 +1,7 @@
 #include "subwindow.h"
 #include "ui_subwindow.h"
 
-SubWindow::SubWindow(QWidget *parent,string directory) :
+SubWindow::SubWindow(QWidget *parent,Node* output) :
     QDialog(parent),
     ui(new Ui::SubWindow)
 {
@@ -11,7 +11,7 @@ SubWindow::SubWindow(QWidget *parent,string directory) :
     mainPalette->setColor(QPalette::Active,QPalette::Window,Qt::white);
     this->setPalette(*mainPalette);
 
-    UI_init(directory);
+    UI_init(output);
 }
 
 SubWindow::~SubWindow()
@@ -19,10 +19,10 @@ SubWindow::~SubWindow()
     delete ui;
 }
 
-void SubWindow::UI_init(string directory)
+void SubWindow::UI_init(Node* output)
 {
 
-    widget = new Graphics(0, directory);
+    widget = new Graphics(0, output);
 
     //remove border of the Graph layout
     widget->setStyleSheet("border:0px;");
@@ -37,6 +37,5 @@ void SubWindow::UI_init(string directory)
     //adding main layout to central widget of window
     centralWidget = new QWidget(this);
     centralWidget->setLayout(TreeLayout);
-
 
 }

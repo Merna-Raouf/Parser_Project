@@ -3,7 +3,7 @@
 #include <math.h>
 #include "mainwindow.h"
 
-Graphics::Graphics(QWidget *parent,string directory)
+Graphics::Graphics(QWidget *parent,Node* output)
     : QGraphicsView(parent)
 {
     this->setMouseTracking(true);
@@ -21,8 +21,8 @@ Graphics::Graphics(QWidget *parent,string directory)
     this->scale(qreal(0.8), qreal(0.8));
     this->setMinimumSize(400, 400);
 
-    this->directory = new string;
-    *(this->directory) = directory;
+    this->Output = new Node("");
+    this->Output = output;
 }
 
 
@@ -89,17 +89,9 @@ void Graphics::drawBackground(QPainter *painter, const QRectF &rect)
     painter->drawText(textRect, message);
 
 
-    Parser p1;
-    p1.read_file(*(this->directory));
 
-    Node* Output = p1.statement_seq();
-    if(Output == NULL){
-        QMessageBox::warning(this,"Input File Error","The input file format is not correct");
-        return;
-    }
-    else{
-        DrawTree(Output,"","",0,0,100,100,QRect(10,10,10,10),"None",painter);
-    }
+    DrawTree(this->Output,"","",0,0,100,100,QRect(10,10,10,10),"None",painter);
+
 }
 
 void Graphics::scaleView(qreal scaleFactor)
@@ -121,43 +113,7 @@ void Graphics::zoomOut()
 {
     scaleView(1 / qreal(1.2));
 }
-/*
-void Graphics:: paintEvent(QPaintEvent *painter)
-{
 
-    Parser p1;
-    p1.read_file("C:\\Users\\Nader\\Documents\\untitled\\Example.txt");
-    Node* Output = p1.statement_seq();
-
-    DrawTree(Output,50,10,QRect(10,10,10,10),"None");
-
-    QRect rec1 = DrawRec(350 , 80 , "ASSIGN");
-    QRect rec2 = DrawRec(350 , rec1.center().y() + (20+RECT_H) , "ASSIGN");
-    QRect rec3 = DrawRec(350, rec2.center().y() + (20+RECT_H) , "ASSIGN");
-    QRect rec4 = DrawRec(rec3.center().x() + RECT_W , rec3.center().y() - RECT_H/2 , "ASSIGN");
-
-    connectRectoChildRec(rec1,rec2);
-    connectRectoChildRec(rec2,rec3);
-    connectSiblingRects(rec3,rec4);
-
-    QRect Ellipse1 = DrawCircle(rec4.center()+QPoint(0,(20+RECT_H)),"Op\n(-)");
-    connectRectoChildCir(rec4,Ellipse1);
-
-    QRect Ellipse2 = DrawCircle(Ellipse1.center()+QPoint(0,2*RECT_H),"Op\n(-)");
-
-    QRect Ellipse3 = DrawCircle(Ellipse1.center()+QPoint(Cir_R*4,2*RECT_H),"Op\n(-)");
-
-    connectCirtoChildCir(Ellipse1,Ellipse2);
-    connectCirtoChildCir(Ellipse1,Ellipse3);
-
-    QRect Ellipse4 = DrawCircle(Ellipse3.center()+QPoint(0,2*RECT_H),"Op\n(-)");
-    QRect Ellipse5 = DrawCircle(Ellipse3.center()+QPoint(Cir_R*4,2*RECT_H),"Op\n(-)");
-
-    connectCirtoChildCir(Ellipse3,Ellipse4);
-    connectCirtoChildCir(Ellipse3,Ellipse5);
-
-}
-*/
 int Graphics:: DrawTree(Node* root,string prev_val,string pre_prev,int flag,int pre_flag,int x,int y , QRect prev , string prev_type , QPainter *painter){
 
     QString text = QString::fromStdString(root->value);
@@ -261,33 +217,28 @@ int Graphics::count_leaf(Node* root){
 
 
 QRect Graphics:: DrawRec(int x , int y , QString text,QPainter * painter){
-    //QPainter painter(this);
 
     QPen pen;
     pen.setColor(Qt::black);
     pen.setWidth(3);
 
-    //painter->setPen(pen);
     painter->setPen(pen);
 
     QRect rec1(x,y,RECT_W,RECT_H);
     QPoint r1_c = rec1.center();
 
     QFont font1("Volkhov",15,QFont::Light,true);
-    //painter->setFont(font1);
+
     painter->setFont(font1);
     QFontMetrics fm(font1);
 
     int wfont = fm.width(text);
     r1_c = r1_c - QPoint(wfont/2 , 0);
 
-    //painter->drawText(r1_c,  text);
     painter->drawText(r1_c,  text);
     pen.setColor(Qt::red);
 
-    //painter->setPen(pen);
     painter->setPen(pen);
-    //painter->drawRect(rec1);
     painter->drawRect(rec1);
     return rec1;
 }
@@ -324,8 +275,8 @@ QRect Graphics:: DrawCircle(QPoint c , QString text,QPainter * painter){
 
 void Graphics :: connectChildRec(QRect rec1 , QRect rec2,QPainter *painter){
 
-     QPoint start,end;
-    if(rec1.height() == 80)
+   QPoint start,end;
+   if(rec1.height() == 80)
        start = rec1.center() + QPoint(0,RECT_H/2);
    if(rec1.height()== 70)
       start = rec1.center() + QPoint(0,Cir_R);
