@@ -15,7 +15,7 @@ public:
     //virtual void paintEvent(QPaintEvent *painter) ;
     QRect DrawRec(int x , int y , QString text,QPainter * painter);
     QRect DrawCircle(QPoint c , QString text,QPainter * painter);
-    int  DrawTree(Node* root,string prev_val,int x,int y , QRect prev , string prev_type , QPainter *painter );
+    int  DrawTree(Node* root,string prev_val,string pre_prev,int pre_flag,int flag,int x,int y , QRect prev , string prev_type , QPainter *painter );
     void connectChildRec(QRect rec1 , QRect rec2,QPainter *painter);
     void connectSiblingRects(QRect rec1 , QRect rec2,QPainter *painter);
     void matchingLine(QPoint p1 , QPoint p2 , Qt::GlobalColor color,QPainter * painter);

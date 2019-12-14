@@ -98,7 +98,7 @@ void Graphics::drawBackground(QPainter *painter, const QRectF &rect)
         return;
     }
     else{
-        DrawTree(Output,"",100,100,QRect(10,10,10,10),"None",painter);
+        DrawTree(Output,"","",0,0,100,100,QRect(10,10,10,10),"None",painter);
     }
 }
 
@@ -158,10 +158,12 @@ void Graphics:: paintEvent(QPaintEvent *painter)
 
 }
 */
-int Graphics:: DrawTree(Node* root,string prev_val,int x,int y , QRect prev , string prev_type , QPainter *painter){
+int Graphics:: DrawTree(Node* root,string prev_val,string pre_prev,int flag,int pre_flag,int x,int y , QRect prev , string prev_type , QPainter *painter){
 
     QString text = QString::fromStdString(root->value);
-    int test1 ,test2;
+    int x_old,y_old;
+    x_old = x;
+    y_old = y;
     if(root->value != "StatementSeq"
         && prev_val != "read" &&root->value != "read"
         && prev_val != "Assign" &&root->value != "Assign"){
@@ -180,14 +182,22 @@ int Graphics:: DrawTree(Node* root,string prev_val,int x,int y , QRect prev , st
         {
             QRect newElipse = DrawCircle(QPoint(x+30,y),text,painter);
             y = newElipse.center().y() + (20+RECT_H);
-            test1 = newElipse.height();
+
+            connectChildRec(prev, newElipse,painter);
+            prev = newElipse;
 
         }
         else{
+
             QRect newRec = DrawRec(x,y,text,painter);
             y = newRec.center().y() + (20+RECT_H);
-            test2 = newRec.height();
+            if (prev_val != "StatementSeq")
+            connectChildRec(prev, newRec,painter);
 
+            else if (prev_val == "StatementSeq" && flag == 0)
+            connectChildRec(prev, newRec,painter);
+
+            prev = newRec;
             }
 
     }
@@ -198,6 +208,13 @@ int Graphics:: DrawTree(Node* root,string prev_val,int x,int y , QRect prev , st
 
         QRect newRec = DrawRec(x,y, string_to + "(" + text+")",painter);
         y = newRec.center().y() + (20+RECT_H);
+        if (pre_prev != "StatementSeq" )
+        connectChildRec(prev, newRec,painter);
+
+        else if (pre_prev == "StatementSeq" && pre_flag == 0)
+        connectChildRec(prev, newRec,painter);
+
+        prev = newRec;
 
     }
 
@@ -205,13 +222,26 @@ int Graphics:: DrawTree(Node* root,string prev_val,int x,int y , QRect prev , st
     int x_move = 0 ;
     int max_children=0;
     int node_children;
+    int x_move_old =0;
+    int flag_first = 0 ;
 
+    if (pre_prev == "") flag_first = 1;
+    for(list<Node *>::iterator it=root->children.begin(); it != root->children.end(); ){
 
-    for(list<Node *>::iterator it=root->children.begin(); it != root->children.end(); it++){
-       node_children =  DrawTree(*it,root->value, x+x_move, y , prev , prev_type,painter);
+       node_children =  DrawTree(*it,root->value,prev_val,flag_first,flag, x+x_move, y , prev , prev_type,painter);
        node_children = count_leaf(*it);
        if (max_children<node_children) max_children = node_children;
        x_move += 110 + (max_children-1) *110 ;
+       it++;
+       flag_first = 1;
+
+       if(text == "StatementSeq" && it != root->children.end() ){
+           QPoint start = QPoint(x+x_move_old,y) + QPoint(RECT_W,RECT_H/2);
+           QPoint end = QPoint(x+((x_move_old>0)?x_move_old -RECT_W-10 : 0) ,y) + QPoint(x_move,RECT_H/2) ;
+           matchingLine(start , end ,Qt::blue,painter);
+           x_move_old = x_move;
+       }
+
     }
 
     return root->children.size();
