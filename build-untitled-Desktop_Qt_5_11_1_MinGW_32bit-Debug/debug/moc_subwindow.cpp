@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_SubWindow_t {
     QByteArrayData data[5];
-    char stringdata0[36];
+    char stringdata0[32];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,11 +34,11 @@ static const qt_meta_stringdata_SubWindow_t qt_meta_stringdata_SubWindow = {
 QT_MOC_LITERAL(0, 0, 9), // "SubWindow"
 QT_MOC_LITERAL(1, 10, 7), // "UI_init"
 QT_MOC_LITERAL(2, 18, 0), // ""
-QT_MOC_LITERAL(3, 19, 6), // "string"
-QT_MOC_LITERAL(4, 26, 9) // "directory"
+QT_MOC_LITERAL(3, 19, 5), // "Node*"
+QT_MOC_LITERAL(4, 25, 6) // "output"
 
     },
-    "SubWindow\0UI_init\0\0string\0directory"
+    "SubWindow\0UI_init\0\0Node*\0output"
 };
 #undef QT_MOC_LITERAL
 
@@ -70,7 +70,7 @@ void SubWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         SubWindow *_t = static_cast<SubWindow *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->UI_init((*reinterpret_cast< string(*)>(_a[1]))); break;
+        case 0: _t->UI_init((*reinterpret_cast< Node*(*)>(_a[1]))); break;
         default: ;
         }
     }

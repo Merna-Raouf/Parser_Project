@@ -96,6 +96,7 @@ Node* Parser :: if_Con()
         {
             if_node->append_child(exp_pointer);
             if_node->append_child(statement_pointer);
+            if_node->append_child(else_node);
             if_node->append_child(ElseStatement_pointer);
 
             return if_node;

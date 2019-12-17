@@ -193,7 +193,8 @@ int Graphics:: DrawTree(Node* root,string prev_val,string pre_prev,int flag,int 
 
        if(text == "StatementSeq" && it != root->children.end() ){
            QPoint start = QPoint(x+x_move_old,y) + QPoint(RECT_W,RECT_H/2);
-           QPoint end = QPoint(x+((x_move_old>0)?x_move_old -RECT_W-10 : 0) ,y) + QPoint(x_move,RECT_H/2) ;
+           QPoint end = QPoint(x+((x_move>0)?(x_move) : 0) ,y) + QPoint(0,RECT_H/2) ;
+           QPoint diff = end - start;
            matchingLine(start , end ,Qt::blue,painter);
            x_move_old = x_move;
        }
