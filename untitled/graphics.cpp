@@ -183,10 +183,12 @@ int Graphics:: DrawTree(Node* root,string prev_val,string pre_prev,int flag,int 
 
     if (pre_prev == "") flag_first = 1;
     for(list<Node *>::iterator it=root->children.begin(); it != root->children.end(); ){
+       Node* test = *it;
+
 
        node_children =  DrawTree(*it,root->value,prev_val,flag_first,flag, x+x_move, y , prev , prev_type,painter);
        node_children = count_leaf(*it);
-       if (max_children<node_children) max_children = node_children;
+       max_children = node_children;
        x_move += 110 + (max_children-1) *110 ;
        it++;
        flag_first = 1;
