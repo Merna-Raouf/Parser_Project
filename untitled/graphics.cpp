@@ -123,6 +123,7 @@ int Graphics:: DrawTree(Node* root,string prev_val,string pre_prev,int flag,int 
     if(root->value != "StatementSeq"
         && prev_val != "read" &&root->value != "read"
         && prev_val != "Assign" &&root->value != "Assign"){
+        QString numorid = "";
 
         if (root->type == "NUMBER"
                 ||root->type == "IDENTIFIER"
@@ -136,7 +137,14 @@ int Graphics:: DrawTree(Node* root,string prev_val,string pre_prev,int flag,int 
 
                 )
         {
-            QRect newElipse = DrawCircle(QPoint(x+30,y),text,painter);
+            if(root->type == "NUMBER")
+                    numorid = "Const(" +text + ")" ;
+             else if(root->type == "IDENTIFIER")
+                    numorid = "Id(" + text + ")";
+             else
+                   numorid = text;
+
+            QRect newElipse = DrawCircle(QPoint(x+30,y),numorid,painter);
             y = newElipse.center().y() + (20+RECT_H);
 
             connectChildRec(prev, newElipse,painter);
@@ -189,7 +197,7 @@ int Graphics:: DrawTree(Node* root,string prev_val,string pre_prev,int flag,int 
        node_children =  DrawTree(*it,root->value,prev_val,flag_first,flag, x+x_move, y , prev , prev_type,painter);
        node_children = count_leaf(*it);
        max_children = node_children;
-       x_move += 110 + (max_children-1) *110 ;
+       x_move += 130 + (max_children-1) *130 ;
        it++;
        flag_first = 1;
 
